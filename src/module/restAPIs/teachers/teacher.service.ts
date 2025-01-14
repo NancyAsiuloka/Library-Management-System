@@ -1,6 +1,10 @@
 import Teacher from "./teacher.schema";
 import Student from "../students/student.schema";
-import { CreateTeacher, CreateStudentUnderTeacher } from "../../../types/book.types";
+import {
+  CreateTeacher,
+  UpdateTeacher,
+  CreateStudentUnderTeacher,
+} from "../../../types/book.types";
 
 export class TeacherService {
   async createTeacher(data: CreateTeacher) {
@@ -16,10 +20,12 @@ export class TeacherService {
   }
 
   async createStudent(data: CreateStudentUnderTeacher, teacherId: string) {
-  const { name } = data;
+    const { name } = data;
 
-  const student = await Student.create({ name, teacher: teacherId });
-  await Teacher.findByIdAndUpdate(teacherId, { $push: { students: student._id } });
+    const student = await Student.create({ name, teacher: teacherId });
+    await Teacher.findByIdAndUpdate(teacherId, {
+      $push: { students: student._id },
+    });
 
     return student;
   }
@@ -34,9 +40,15 @@ export class TeacherService {
     return teacher;
   }
 
+  async updateTeacher(teacherId: string, data: UpdateTeacher) {
+    const teacher = await Teacher.findByIdAndUpdate(teacherId, data, {
+      new: true,
+    });
+    return teacher;
+  }
+
   async deleteTeacher(teacherId: string) {
     const teacher = await Teacher.findByIdAndDelete(teacherId);
     return teacher;
   }
-
 }

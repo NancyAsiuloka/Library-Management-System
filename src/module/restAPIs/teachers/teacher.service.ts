@@ -29,4 +29,9 @@ export class TeacherService {
     return students;
   }
 
+  async getTeacherById(teacherId: string) {
+    const teacher = await Teacher.findById(teacherId).populate("students");
+    return teacher;
+  }
+
 }

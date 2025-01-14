@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CreateTeacher, CreateStudentUnderTeacher } from "../../../types/book.types";
+import { CreateTeacher, CreateStudentUnderTeacher, UpdateTeacher } from "../../../types/book.types";
 import { TeacherService } from "./teacher.service";
 import { unauthorized } from "../../../utils/error";
 import httpStatus from "http-status";
@@ -21,6 +21,21 @@ export interface TeacherControllerInterface {
     next: NextFunction
   ) => Promise<Response<unknown, Record<string, unknown>> | void>;
   studentsOfTeacher: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<Response<unknown, Record<string, unknown>> | void>;
+  getTeacherById: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<Response<unknown, Record<string, unknown>> | void>;
+  updateTeacher: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<Response<unknown, Record<string, unknown>> | void>;
+  deleteTeacher: (
     req: Request,
     res: Response,
     next: NextFunction
@@ -124,4 +139,78 @@ export class TeacherController implements TeacherControllerInterface {
       });
     }
   }
+
+  async getTeacherById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | Response<any, Record<string, any>>> {
+    try {
+      const teacherId = req.params.id;
+
+      const responseData = await this.teacherService.getTeacherById(teacherId);
+
+      return res.status(httpStatus.OK).send({
+        message: "Teacher fetched successfully",
+        responseData,
+      });
+    } catch (error: any) {
+      console.error("[ERROR]:", error);
+      const statusCode = unauthorized.httpCode;
+      const message = unauthorized.message;
+      return res.status(statusCode).json({
+        error: message,
+      });
+    }
+  }
+  async updateTeacher(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | Response<any, Record<string, any>>> {
+    try {
+      const data: UpdateTeacher = req.body;
+      const teacherId = req.params.id;
+
+      const responseData = await this.teacherService.updateTeacher(teacherId, data);
+
+      return res.status(httpStatus.OK).send({
+        message: "Teacher fetched successfully",
+        responseData,
+      });
+    } catch (error: any) {
+      console.error("[ERROR]:", error);
+      const statusCode = unauthorized.httpCode;
+      const message = unauthorized.message;
+      return res.status(statusCode).json({
+        error: message,
+      });
+    }
+  }
+  async deleteTeacher(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | Response<any, Record<string, any>>> {
+    try {
+      const teacherId = req.params.id;
+
+      const responseData = await this.teacherService.deleteTeacher(teacherId);
+
+      return res.status(httpStatus.OK).send({
+        message: "Teacher fetched successfully",
+        responseData,
+      });
+    } catch (error: any) {
+      console.error("[ERROR]:", error);
+      const statusCode = unauthorized.httpCode;
+      const message = unauthorized.message;
+      return res.status(statusCode).json({
+        error: message,
+      });
+    }
+  }
+
+
+
 }

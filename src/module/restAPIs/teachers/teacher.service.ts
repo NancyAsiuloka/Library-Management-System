@@ -34,4 +34,9 @@ export class TeacherService {
     return teacher;
   }
 
+  async deleteTeacher(teacherId: string) {
+    const teacher = await Teacher.findByIdAndDelete(teacherId);
+    return teacher;
+  }
+
 }

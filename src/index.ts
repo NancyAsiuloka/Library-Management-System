@@ -45,7 +45,6 @@ try {
   process.on("uncaughtException", (error: Error) =>
     console.error("Uncaught Exception:", error, {
       stack: error.stack,
-      origin,
     })
   );
 } catch (error: any) {

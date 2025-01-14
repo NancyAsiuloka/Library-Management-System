@@ -22,6 +22,11 @@ export interface CreateTeacher{
   email: string;
   students: mongoose.Types.ObjectId[];
 }
+export interface UpdateTeacher{
+  name?: string;
+  email?: string;
+  students: mongoose.Types.ObjectId[];
+}
 
 export interface CreateStudentUnderTeacher{
   name: string;

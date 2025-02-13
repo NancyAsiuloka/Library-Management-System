@@ -21,7 +21,6 @@ const StudentSchema: Schema = new Schema(
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Teacher',
-      required: true,
     },
   },
   { timestamps: true }

@@ -22,7 +22,7 @@ teacherRoutes.get(
 teacherRoutes.post(
   "/:teacherId/students",
   async (req: Request, res: Response): Promise<void> => {
-    await teacherController.createStudent(req, res);
+    await teacherController.createStudent(req, res, );
   }
 );
 

@@ -21,11 +21,17 @@ export class TeacherService {
 
   async createStudent(data: CreateStudentUnderTeacher, teacherId: string) {
     const { name } = data;
+    console.log(data)
+
+    console.log("teacherId", teacherId);
 
     const student = await Student.create({ name, teacher: teacherId });
+
+    console.log("student", student);
     await Teacher.findByIdAndUpdate(teacherId, {
-      $push: { students: student._id },
-    });
+      // $push: { students: student._id },
+      $addToSet: { students: student._id },
+    }, );
 
     return student;
   }

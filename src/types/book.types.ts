@@ -30,4 +30,5 @@ export interface UpdateTeacher{
 
 export interface CreateStudentUnderTeacher{
   name: string;
+  teacher: mongoose.Types.ObjectId;
 }
